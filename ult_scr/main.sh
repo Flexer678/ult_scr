@@ -67,7 +67,7 @@ ocredit=${ocredit:--1}
 
 
 
-# Modify the line with pam_unix.so to enforce strong passwords
+
 sudo sed -i "s/^password.*pam_unix.so.*/password        [success=1 default=ignore]      pam_unix.so obscure sha512 minlen=$minlen dcredit=$dcredit ucredit=$ucredit lcredit=$lcredit ocredit=$ocredit/" /etc/pam.d/common-password
 echo "check the password files"
 sleep 3
@@ -82,7 +82,7 @@ securing_lightdm(){
 read -p "Enable autologin for a specific user? [Y/n]: " autologin_user
 read -p "Enable autologin for the guest user? [Y/n]: " autologin_guest
 
-# Modify the desired parameters in lightdm.conf
+
 sudo sed -i "/^#allow-guest=/ s/^#//" /etc/lightdm/lightdm.conf
 if [[ "$allow_guest" =~ ^[Nn]$ ]]; then
   sudo sed -i "s/^allow-guest=.*/allow-guest=false/" /etc/lightdm/lightdm.conf
@@ -105,7 +105,7 @@ if [[ "$autologin_guest" =~ ^[Yy]$ ]]; then
 fi
 
 sudo nano /etc/lightdm/lightdm.conf
-# Restart the LightDM service
+
 sudo systemctl restart lightdm
 }
 
@@ -128,7 +128,7 @@ done
 
 
 check_uid(){
-	# Check if root is the only user with UID 0
+	# Checking if root is the only user with UID 0
 uid_count=$(awk -F: '$3 == 0 {count++} END {print count}' /etc/passwd)
 if [ "$uid_count" -eq 1 ]; then
     echo "Only root has UID 0"
@@ -136,7 +136,7 @@ else
     echo "Other users also have UID 0"
 fi
 
-# Check if root is the only group with GID 0
+# Checking if root is the only group with GID 0
 gid_count=$(awk -F: '$3 == 0 {count++} END {print count}' /etc/group)
 if [ "$gid_count" -eq 1 ]; then
     echo "Only root has GID 0"
