@@ -117,7 +117,7 @@ for user_dir in /home/*; do
     username=$(basename "$user_dir")
 
     # Check password strength for each user
-    result=$(sudo cracklib-check <<< $(echo "$username" | sudo chpasswd --list) 2>&1)
+    result=$(sudo cracklib-check <<< $(echo "$username") )
 
     if [[ $result != *"OK"* ]]; then
         echo "User: $username - Weak Password"
@@ -239,6 +239,7 @@ audit_enabled(){
     if [[ "$answer" == "y" ]]; then
         sudo systemctl enable auditd
         sudo systemctl start auditd
+    fi
 }
 
 
